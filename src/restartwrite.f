@@ -114,7 +114,7 @@
 !     
 !     check whether the restart file exists and is opened
 !     
-         call system("rm -f temporaryrestartfile")
+         call execute_command_line("rm -f temporaryrestartfile")
 !     
          open(15,file="temporaryrestartfile",ACCESS='SEQUENTIAL',
      &        FORM='UNFORMATTED',err=151)
