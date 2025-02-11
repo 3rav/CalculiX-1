@@ -301,9 +301,15 @@ void pardiso_factor(double *ad, double *au, double *adb, double *aub,
 
   mkl_domain_set_num_threads(mthread_mkl,MKL_DOMAIN_PARDISO);
   
+#ifdef INTSIZE64
+  FORTRAN(pardiso_64,(pt,&maxfct,&mnum,&mtype,&phase,neq,aupardiso,
+		   pointers,icolpardiso,perm,&nrhs,iparm,&msglvl,
+                   b,x,&error));
+#else
   FORTRAN(pardiso,(pt,&maxfct,&mnum,&mtype,&phase,neq,aupardiso,
 		   pointers,icolpardiso,perm,&nrhs,iparm,&msglvl,
                    b,x,&error));
+#endif
 
   return;
 }
@@ -338,9 +344,15 @@ void pardiso_solve(double *b, ITG *neq,ITG *symmetryflag,ITG *inputformat,
 
   NNEW(x,double,*nrhs**neq);
 
-  FORTRAN(pardiso,(pt,&maxfct,&mnum,&mtype,&phase,neq,aupardiso,
+#ifdef INTSIZE64
+  FORTRAN(pardiso_64,(pt,&maxfct,&mnum,&mtype,&phase,neq,aupardiso,
 		   pointers,icolpardiso,perm,nrhs,iparm,&msglvl,
                    b,x,&error));
+#else
+  FORTRAN(pardiso,(pt,&maxfct,&mnum,&mtype,&phase,neq,aupardiso,
+		   pointers,icolpardiso,perm,&nrhs,iparm,&msglvl,
+                   b,x,&error));
+#endif
 
   for(i=0;i<*nrhs**neq;i++){b[i]=x[i];}
   SFREE(x);
@@ -364,9 +376,15 @@ void pardiso_cleanup(ITG *neq,ITG *symmetryflag,ITG *inputformat){
     }
   }
 
+#ifdef INTSIZE64
+  FORTRAN(pardiso_64,(pt,&maxfct,&mnum,&mtype,&phase,neq,aupardiso,
+		   pointers,icolpardiso,perm,&nrhs,iparm,&msglvl,
+                   b,x,&error));
+#else
   FORTRAN(pardiso,(pt,&maxfct,&mnum,&mtype,&phase,neq,aupardiso,
 		   pointers,icolpardiso,perm,&nrhs,iparm,&msglvl,
                    b,x,&error));
+#endif
 
   SFREE(icolpardiso);
   SFREE(aupardiso);
