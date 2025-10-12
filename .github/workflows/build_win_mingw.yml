@@ -1,4 +1,5 @@
 name: Windows MinGW build
+
 on:
   push:
     branches: [ master ]
@@ -17,7 +18,36 @@ jobs:
         with:
           msystem: UCRT64
           update: true
-          install: git make mingw-w64-ucrt-x86_64-gcc-libgfortran mingw-w64-ucrt-x86_64-gcc-fortran mingw-w64-ucrt-x86_64-cc mingw-w64-ucrt-x86_64-openblas mingw-w64-ucrt-x86_64-arpack mingw-w64-ucrt-x86_64-spooles
-      - name: CI-Build
+          install: >
+            git make
+            mingw-w64-ucrt-x86_64-gcc-libgfortran
+            mingw-w64-ucrt-x86_64-gcc-fortran
+            mingw-w64-ucrt-x86_64-cc
+            mingw-w64-ucrt-x86_64-openblas
+            mingw-w64-ucrt-x86_64-arpack
+            mingw-w64-ucrt-x86_64-spooles
+      - name: CI-Build (UCRT64)
+        run: |
+          make -f Makefile_mingw
+
+  msys2-clang64:
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: msys2 {0}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: msys2/setup-msys2@v2
+        with:
+          msystem: CLANG64
+          update: true
+          install: >
+            git make
+            mingw-w64-clang-x86_64-clang
+            mingw-w64-clang-x86_64-flang
+            mingw-w64-clang-x86_64-openblas
+            mingw-w64-clang-x86_64-arpack
+            mingw-w64-clang-x86_64-spooles
+      - name: CI-Build (CLANG64)
         run: |
           make -f Makefile_mingw
