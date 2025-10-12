@@ -28,11 +28,7 @@ jobs:
             mingw-w64-ucrt-x86_64-spooles
       - name: CI-Build (UCRT64)
         run: |
-          set CFLAGS+=" -fopenmp -Wno-incompatible-pointer-types -Wno-implicit-function-declaration" 
-          set FC=gfortran 
-          set FFLAGS+="-fallow-argument-mismatch -fopenmp -O2" 
-          set OMP_LIBS="-lgomp -lquadmath"
-          make -f Makefile_mingw 
+          make CFLAGS+=" -fopenmp -Wno-incompatible-pointer-types -Wno-implicit-function-declaration" FC=gfortran FFLAGS+="-fallow-argument-mismatch -fopenmp -O2" OMP_LIBS="-lgomp -lquadmath" -f Makefile_mingw 
 
   msys2-clang64:
     runs-on: windows-latest
@@ -54,8 +50,4 @@ jobs:
             mingw-w64-clang-x86_64-spooles
       - name: CI-Build (CLANG64)
         run: |
-          set CFLAGS+=" -fopenmp -Wno-implicit-function-declaration" 
-          set FC=flang 
-          set FFLAGS+="-fopenmp -O2 -I${MINGW_PREFIX}/include" 
-          set OMP_LIBS="-lomp"
-          make -f Makefile_mingw
+          make CFLAGS+=" -fopenmp -Wno-implicit-function-declaration" FC=flang FFLAGS+="-fopenmp -O2 -I${MINGW_PREFIX}/include" OMP_LIBS="-lomp" -f Makefile_mingw
