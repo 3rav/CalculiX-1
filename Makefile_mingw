@@ -1,9 +1,9 @@
 
-CFLAGS = -Wall -O2 -fopenmp -I ${MINGW_PREFIX}/include/spooles -DSPOOLES -DARCH="Linux" -DSPOOLES -DARPACK -DMATRIXSTORAGE -DNETWORKOUT -DUSE_MT=1 -DCALCULIX_EXTERNAL_BEHAVIOURS_SUPPORT -fcommon -Wno-implicit-function-declaration -Wno-incompatible-pointer-types
+CFLAGS = -Wall -O2 -fopenmp -I ${MINGW_PREFIX}/include/spooles -DSPOOLES -DARCH="Linux" -DSPOOLES -DARPACK -DMATRIXSTORAGE -DNETWORKOUT -DUSE_MT=1 -DCALCULIX_EXTERNAL_BEHAVIOURS_SUPPORT -fcommon
 FFLAGS = -Wall -O2 -fopenmp -cpp 
 
-CC=cc
-FC=gfortran
+CC=CC
+FC=FC
 
 .c.o :
 	$(CC) $(CFLAGS) -c $<
