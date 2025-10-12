@@ -27,11 +27,12 @@ jobs:
             mingw-w64-ucrt-x86_64-arpack
             mingw-w64-ucrt-x86_64-spooles
       - name: CI-Build (UCRT64)
-        run: |
+        env:
           export CFLAGS+=" -fopenmp -Wno-incompatible-pointer-types -Wno-implicit-function-declaration"
           export FC=gfortran
           export FFLAGS="-fallow-argument-mismatch -fopenmp -O2"
           export OMP_LIBS="-lgomp -lquadmath"
+        run: |
           make -f Makefile_mingw
 
   msys2-clang64:
@@ -53,9 +54,10 @@ jobs:
             mingw-w64-clang-x86_64-arpack
             mingw-w64-clang-x86_64-spooles
       - name: CI-Build (CLANG64)
-        run: |
+        env:
           export CFLAGS+=" -fopenmp -Wno-implicit-function-declaration"
           export FC=flang
           export FFLAGS="-fopenmp -O2 -I${MINGW_PREFIX}/include"
           export OMP_LIBS="-lomp"
+        run: |
           make -f Makefile_mingw
